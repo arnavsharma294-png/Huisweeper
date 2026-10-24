@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Dark rich background disc -->
+    <radialGradient id="baseGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141e33"/>
+      <stop offset="100%" stop-color="#080c16"/>
+    </radialGradient>
+    <!-- Ghewar golden crust gradient -->
+    <radialGradient id="ghewarGold" cx="42%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="35%" stop-color="#eab308"/>
+      <stop offset="75%" stop-color="#ca8a04"/>
+      <stop offset="100%" stop-color="#854d0e"/>
+    </radialGradient>
+    <radialGradient id="centerHole" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#080c16"/>
+      <stop offset="100%" stop-color="#141e33"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="64" height="64" rx="14" fill="url(#baseGrad)"/>
+  <rect width="62" height="62" x="1" y="1" rx="13" fill="none" stroke="rgba(234, 179, 8, 0.35)" stroke-width="1.5"/>
+
+  <!-- Ghewar Outer Golden Honeycomb Disc -->
+  <circle cx="32" cy="32" r="22" fill="url(#ghewarGold)" stroke="#713f12" stroke-width="1"/>
+
+  <!-- Porous Honeycomb Texture Pattern Rings & Spokes -->
+  <circle cx="32" cy="32" r="18" fill="none" stroke="rgba(113, 63, 18, 0.45)" stroke-width="1.5" stroke-dasharray="2, 2.5"/>
+  <circle cx="32" cy="32" r="14" fill="none" stroke="rgba(254, 240, 138, 0.6)" stroke-width="1" stroke-dasharray="1.5, 2"/>
+  <circle cx="32" cy="32" r="10" fill="none" stroke="rgba(113, 63, 18, 0.5)" stroke-width="1.2" stroke-dasharray="2, 1.5"/>
+
+  <!-- Radiating Honeycomb Spokes -->
+  <g stroke="rgba(113, 63, 18, 0.4)" stroke-width="1">
+    <line x1="32" y1="12" x2="32" y2="24"/>
+    <line x1="32" y1="40" x2="32" y2="52"/>
+    <line x1="12" y1="32" x2="24" y2="32"/>
+    <line x1="40" y1="32" x2="52" y2="32"/>
+    <line x1="18" y1="18" x2="26" y2="26"/>
+    <line x1="38" y1="38" x2="46" y2="46"/>
+    <line x1="46" y1="18" x2="38" y2="26"/>
+    <line x1="26" y1="38" x2="18" y2="46"/>
+  </g>
+
+  <!-- Iconic Ghewar Center Hole -->
+  <circle cx="32" cy="32" r="6.5" fill="url(#centerHole)" stroke="#713f12" stroke-width="1.2"/>
+
+  <!-- Pistachio and Almond Garnish Specks -->
+  <circle cx="26" cy="20" r="1.3" fill="#22c55e"/>
+  <circle cx="38" cy="22" r="1.2" fill="#15803d"/>
+  <circle cx="43" cy="34" r="1.3" fill="#22c55e"/>
+  <circle cx="22" cy="37" r="1.2" fill="#16a34a"/>
+  <circle cx="36" cy="44" r="1.3" fill="#22c55e"/>
+  <circle cx="28" cy="43" r="1.2" fill="#f8fafc"/>
+  <circle cx="33" cy="18" r="1.1" fill="#f8fafc"/>
+  <!-- Silver Vark Foil Shimmer -->
+  <polygon points="30,23 33,22 34,25 31,26" fill="#f1f5f9" opacity="0.85"/>
+  <polygon points="34,39 37,38 38,41 35,42" fill="#f1f5f9" opacity="0.85"/>
+</svg>
