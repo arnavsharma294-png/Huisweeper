@@ -2,236 +2,345 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#080c16">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#070b14">
   <meta name="description" content="Huisweeper: Authentic Indian sweets Minesweeper logic puzzle with Rajasthani Ghewar and Soan Papdi.">
   <meta name="keywords" content="Huisweeper, Minesweeper, Indian sweets, Ghewar, Soan Papdi, Logic puzzle">
-  <title>Huisweeper: Authentic Indian Sweets Minesweeper</title>
+  <title>HUISWEEPER — Great Power Comes With Great Ghewar</title>
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <link rel="canonical" href="https://huisweeper.com/">
 
   <!-- Preconnect to Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- External Stylesheet -->
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-  <!-- Ambient Spider-Man Eating Ghewar Background -->
+  <!-- Ambient Spider-Man Eating Ghewar Subtle Backdrop -->
   <div class="spiderman-eating-bg" aria-hidden="true">
     <div class="spiderman-bg-image"></div>
     <div class="spiderman-bg-gradient"></div>
     <div class="spiderman-bg-vignette"></div>
   </div>
 
-  <!-- Subtle Corner Web Accents -->
+  <!-- Decorative Corner Spiderweb Framing Lines -->
   <div class="corner-web top-left" aria-hidden="true">
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 0,0 L 100,0 M 0,0 L 0,100 M 0,0 L 92,38 M 0,0 L 68,68 M 0,0 L 38,92" stroke="rgba(255, 255, 255, 0.12)" stroke-width="0.6"/>
-      <path d="M 0,22 Q 11,21 22,0" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.5"/>
-      <path d="M 0,42 Q 21,40 42,0" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.5"/>
-      <path d="M 0,64 Q 32,60 64,0" stroke="rgba(56, 189, 248, 0.12)" stroke-width="0.5"/>
-      <path d="M 0,88 Q 44,84 88,0" stroke="rgba(220, 38, 38, 0.14)" stroke-width="0.6"/>
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0,0 L 120,0 M 0,0 L 0,120 M 0,0 L 110,45 M 0,0 L 85,85 M 0,0 L 45,110" stroke="rgba(148, 163, 184, 0.15)" stroke-width="0.8"/>
+      <path d="M 0,28 Q 14,27 28,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,55 Q 28,52 55,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,82 Q 42,78 82,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,110 Q 56,104 110,0" stroke="rgba(148, 163, 184, 0.14)" stroke-width="0.8"/>
     </svg>
   </div>
 
   <div class="corner-web top-right" aria-hidden="true">
-    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M 0,0 L 100,0 M 0,0 L 0,100 M 0,0 L 92,38 M 0,0 L 68,68 M 0,0 L 38,92" stroke="rgba(255, 255, 255, 0.12)" stroke-width="0.6"/>
-      <path d="M 0,22 Q 11,21 22,0" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.5"/>
-      <path d="M 0,42 Q 21,40 42,0" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.5"/>
-      <path d="M 0,64 Q 32,60 64,0" stroke="rgba(56, 189, 248, 0.12)" stroke-width="0.5"/>
-      <path d="M 0,88 Q 44,84 88,0" stroke="rgba(220, 38, 38, 0.14)" stroke-width="0.6"/>
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 0,0 L 120,0 M 0,0 L 0,120 M 0,0 L 110,45 M 0,0 L 85,85 M 0,0 L 45,110" stroke="rgba(148, 163, 184, 0.15)" stroke-width="0.8"/>
+      <path d="M 0,28 Q 14,27 28,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,55 Q 28,52 55,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,82 Q 42,78 82,0" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.7"/>
+      <path d="M 0,110 Q 56,104 110,0" stroke="rgba(148, 163, 184, 0.14)" stroke-width="0.8"/>
     </svg>
   </div>
 
-  <!-- Main Application Wrapper -->
-  <div class="app-wrap">
+  <!-- =========================================================================
+       PART 1: FULL-SCREEN START SCREEN (Shown on every load / refresh)
+       ========================================================================= -->
+  <section id="start-screen" class="start-screen" aria-label="Game Start Screen">
+    
+    <!-- Corner web accents on start screen -->
+    <div class="start-web-accent bottom-left" aria-hidden="true">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 0,160 L 160,160 M 0,160 L 0,0 M 0,160 L 145,55 M 0,160 L 110,50 M 0,160 L 60,15" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.8"/>
+        <path d="M 0,120 Q 20,120 40,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+        <path d="M 0,80 Q 40,80 80,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+        <path d="M 0,40 Q 60,40 120,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+      </svg>
+    </div>
 
-    <!-- Unified Compact Header -->
-    <header class="app-header">
-      <div class="brand-group">
-        <div class="spidey-badge" aria-hidden="true">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="50" cy="52" rx="13" ry="18" fill="#ffffff"/>
-            <circle cx="50" cy="28" r="8" fill="#ffffff"/>
-            <path d="M 40,40 Q 16,26 23,8 M 60,40 Q 84,26 77,8" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <path d="M 38,48 Q 12,45 18,29 M 62,48 Q 88,45 82,29" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <path d="M 38,58 Q 14,65 19,84 M 62,58 Q 86,65 81,84" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-            <path d="M 40,68 Q 22,84 29,94 M 60,68 Q 78,84 71,94" stroke="#ffffff" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-          </svg>
+    <div class="start-web-accent bottom-right" aria-hidden="true">
+      <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 160,160 L 0,160 M 160,160 L 160,0 M 160,160 L 15,55 M 160,160 L 50,50 M 160,160 L 100,15" stroke="rgba(148, 163, 184, 0.12)" stroke-width="0.8"/>
+        <path d="M 160,120 Q 140,120 120,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+        <path d="M 160,80 Q 120,80 80,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+        <path d="M 160,40 Q 100,40 40,160" stroke="rgba(148, 163, 184, 0.1)" stroke-width="0.7"/>
+      </svg>
+    </div>
+
+    <!-- Central Asymmetric Hero Stage -->
+    <div class="start-stage">
+      
+      <!-- Left Column: Typography & Controls -->
+      <div class="start-info-col">
+        
+        <div class="start-badge-row">
+          <span class="start-spidey-chip">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+            QUEENS × JAIPUR SWEET SHOP
+          </span>
+          <span class="start-edition-chip">DESI MINESWEEPER</span>
         </div>
-        <div class="brand-headings">
-          <h1 class="brand-title">HUISWEEPER</h1>
-          <p class="brand-tagline">Minesweeper: Indian Sweets Edition</p>
+
+        <h1 class="start-wordmark">HUISWEEPER</h1>
+        
+        <p class="start-tagline">“Great power comes with great ghewar.”</p>
+        
+        <p class="start-desc">
+          Navigate the festive grid. Safe tiles reveal delicious Rajasthani Ghewars counting adjacent danger. Dodge the dry, cursed Diwali Soan Papdis passed down through generations.
+        </p>
+
+        <!-- Difficulty Selector -->
+        <div class="start-section-box">
+          <span class="start-section-label">SELECT DIFFICULTY</span>
+          <div class="start-diff-selector" role="radiogroup" aria-label="Game difficulty selector">
+            <button type="button" class="start-diff-btn active" data-level="beginner" role="radio" aria-checked="true">
+              <span class="diff-title">Easy</span>
+              <span class="diff-specs">9×9 · 10 Hazards</span>
+              <span class="diff-tag">Khoya Cadet</span>
+            </button>
+            <button type="button" class="start-diff-btn" data-level="intermediate" role="radio" aria-checked="false">
+              <span class="diff-title">Medium</span>
+              <span class="diff-specs">12×12 · 22 Hazards</span>
+              <span class="diff-tag">Halwai Hero</span>
+            </button>
+            <button type="button" class="start-diff-btn" data-level="expert" role="radio" aria-checked="false">
+              <span class="diff-title">Hard</span>
+              <span class="diff-specs">14×18 · 45 Hazards</span>
+              <span class="diff-tag">Multiverse</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Buttons & Audio Toggle -->
+        <div class="start-actions-row">
+          <button id="start-game-btn" class="btn-primary-start" type="button">
+            <span>Start Game</span>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+
+          <button id="start-howto-btn" class="btn-secondary-start" type="button">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+            <span>How to Play</span>
+          </button>
+
+          <button id="start-sound-toggle" class="btn-icon-start" type="button" title="Toggle Sound (Audio off by default)" aria-label="Toggle sound">
+            <span id="start-sound-icon" aria-hidden="true">
+              <!-- Muted icon by default -->
+              <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+              </svg>
+            </span>
+            <span id="start-sound-label">Audio: OFF</span>
+          </button>
+        </div>
+
+        <p class="start-skip-hint" aria-hidden="true">Tip: Press any key or click to skip intro animation</p>
+
+      </div>
+
+      <!-- Right Column: Visual Hero Photographic Composition (Depth & Realism) -->
+      <div class="start-visual-col" aria-hidden="true">
+        <div class="hero-composition">
+          
+          <!-- Background Depth-of-field Sweet (Blurred) -->
+          <div class="hero-art-layer dof-back">
+            <img src="./assets/ghewar.png" alt="" class="hero-art-img-dof">
+          </div>
+
+          <!-- Main Hero: Golden Crispy Rajasthani Ghewar -->
+          <div class="hero-art-layer hero-ghewar-plate">
+            <div class="hero-plate-rim">
+              <img src="./assets/ghewar.jpg" alt="" class="hero-art-photo">
+            </div>
+            <div class="hero-label-tag safe-tag">
+              <span class="tag-dot safe"></span>
+              <span>HONEYCOMB GHEWAR (SAFE COUNT)</span>
+            </div>
+          </div>
+
+          <!-- Counter-Hero: Dangerous Soan Papdi Diwali Hazard Box -->
+          <div class="hero-art-layer hero-soan-box">
+            <div class="hero-box-rim">
+              <img src="./assets/soan_papdi.jpg" alt="" class="hero-art-photo">
+              <div class="soan-danger-badge">HAZARD!</div>
+            </div>
+            <div class="hero-label-tag danger-tag">
+              <span class="tag-dot danger"></span>
+              <span>SOAN PAPDI (DETONATES ON CLICK)</span>
+            </div>
+          </div>
+
+          <!-- Spiderweb Thread Overlay Line Connecting Sweets -->
+          <svg class="hero-web-thread" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 40,300 Q 150,220 220,120" stroke="rgba(255, 255, 255, 0.16)" stroke-width="1" stroke-dasharray="3 3"/>
+            <path d="M 120,40 Q 200,80 300,180" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1"/>
+            <circle cx="220" cy="120" r="2.5" fill="#94a3b8"/>
+            <circle cx="150" cy="220" r="2" fill="#94a3b8"/>
+          </svg>
+
         </div>
       </div>
 
-      <div class="header-actions">
-        <!-- Custom Domain Badge & Modal Trigger -->
-        <button id="domain-btn" class="header-domain-badge" title="Custom Domain Status: huisweeper.com Connected" aria-label="Custom Domain Status">
-          <span class="domain-status-dot"></span>
-          huisweeper.com
-        </button>
+    </div>
 
-        <button id="lore-btn" class="header-btn" title="How to Play" aria-label="Open game rules">
-          <svg class="btn-svg-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
-            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+  </section>
+
+  <!-- =========================================================================
+       PART 2: GAME SCREEN (Main App Wrapper)
+       ========================================================================= -->
+  <div class="app-wrap" id="game-app">
+
+    <!-- Slim, Well-Composed Top Game HUD Bar -->
+    <header class="hud-topbar" aria-label="Game navigation and status">
+      
+      <!-- Left: Navigation & Branding -->
+      <div class="hud-left-group">
+        <button id="menu-btn" class="hud-tool-btn" type="button" title="Return to Main Menu" aria-label="Open main menu">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
           </svg>
-          Rules
+          <span class="hud-btn-text">Menu</span>
         </button>
 
-        <button id="sound-toggle" class="header-btn active" title="Toggle Audio Effects" aria-label="Toggle game audio">
-          <span id="sound-icon-wrap" aria-hidden="true">
-            <svg class="btn-svg-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/>
+        <div class="hud-brand">
+          <span class="hud-brand-title">HUISWEEPER</span>
+          <span class="hud-brand-sub" id="dimensions">9 × 9</span>
+        </div>
+      </div>
+
+      <!-- Center: Spidey Interactive Reset Face ("Uncle Ben's Second Chance") -->
+      <div class="hud-center-group">
+        <div class="spidey-reset-wrap">
+          <button class="spidey-face-btn" id="reset" title="Uncle Ben's Second Chance (Restart Batch)" aria-label="Restart round">
+            <!-- Rendered dynamically by game.js -->
+          </button>
+          <span class="face-subtitle">Fresh Batch</span>
+        </div>
+      </div>
+
+      <!-- Right: Game-Style Readouts & Quick Tools -->
+      <div class="hud-right-group">
+        
+        <!-- Hazard Counter Readout -->
+        <div class="digital-gauge hazard-gauge" title="Remaining unflagged Soan Papdi hazards">
+          <div class="gauge-header">
+            <span class="gauge-dot red"></span>
+            <span class="gauge-label">SOAN PAPDI</span>
+          </div>
+          <div class="gauge-body">
+            <svg class="gauge-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 01.894.553l7 14A1 1 0 0117 18H3a1 1 0 01-.894-1.447l7-14A1 1 0 0110 2zm0 4.5a.75.75 0 00-.75.75v4.5a.75.75 0 001.5 0v-4.5A.75.75 0 0010 6.5zm0 8.25a.875.875 0 100-1.75.875.875 0 000 1.75z" clip-rule="evenodd"/>
+            </svg>
+            <span class="digital-digits" id="mines" aria-live="polite">010</span>
+          </div>
+        </div>
+
+        <!-- Timer Readout -->
+        <div class="digital-gauge time-gauge" title="Elapsed Time">
+          <div class="gauge-header">
+            <span class="gauge-dot blue"></span>
+            <span class="gauge-label">TIME</span>
+          </div>
+          <div class="gauge-body">
+            <svg class="gauge-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+            </svg>
+            <span class="digital-digits" id="time" aria-live="polite">000</span>
+          </div>
+        </div>
+
+        <!-- Touch Flag Mode Toggle -->
+        <button id="flag-mode-toggle" class="hud-tool-btn" type="button" title="Toggle Flag / Reveal mode for touchscreens" aria-label="Toggle flag mode">
+          <span id="flag-mode-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a4.004 4.004 0 00-2.316 2.316l-.966-.259a1 1 0 00-.518 1.932l.966.259a4.004 4.004 0 002.316 2.316l-.259.966a1 1 0 101.932.518l.259-.966a4.004 4.004 0 002.316-2.316l.966.259a1 1 0 00.518-1.932l-.966-.259a4.004 4.004 0 00-2.316-2.316l.259-.966z" clip-rule="evenodd"/>
             </svg>
           </span>
-          <span id="sound-label">Sound ON</span>
+          <span id="flag-mode-label" class="hud-btn-text">Reveal</span>
         </button>
-      </div>
-    </header>
 
-    <!-- Crisp Hero Guide: Factual, Direct, No Buzzwords -->
-    <section class="game-intro-card">
-      <div class="intro-content">
-        <h2 class="intro-heading">Minesweeper with Ghewar and Soan Papdi</h2>
-        <p class="intro-description">
-          Uncover the board while dodging hidden Soan Papdi hazard boxes. Revealed safe tiles display delicious Rajasthani Ghewars matching the exact count of neighboring hazards.
-        </p>
-      </div>
-    </section>
+        <!-- Sound Toggle -->
+        <button id="sound-toggle" class="hud-tool-btn" type="button" title="Toggle Audio Effects" aria-label="Toggle game audio">
+          <span id="sound-icon-wrap" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>
+          </span>
+          <span id="sound-label" class="hud-btn-text">Sound</span>
+        </button>
 
-    <!-- Main Game Container -->
-    <main class="game-container">
-      
-      <!-- Compact HUD Control Panel -->
-      <section class="hud-panel" aria-label="Game controls and status">
-        
-        <!-- Controls Bar: Difficulty & Mode Switcher -->
-        <div class="toolbar-top">
-          <div class="difficulty-group" role="group" aria-label="Difficulty levels">
-            <button class="diff-btn active" data-level="beginner" aria-label="Beginner difficulty">
-              Beginner <span class="diff-tag">9x9</span>
-            </button>
-            <button class="diff-btn" data-level="intermediate" aria-label="Intermediate difficulty">
-              Medium <span class="diff-tag">12x12</span>
-            </button>
-            <button class="diff-btn" data-level="expert" aria-label="Expert difficulty">
-              Expert <span class="diff-tag">14x18</span>
-            </button>
-          </div>
-
-          <div class="hud-quick-tools">
-            <button id="flag-mode-toggle" class="mode-toggle-btn" title="Toggle flag mode for touch screens">
-              <span id="flag-mode-icon" aria-hidden="true">
-                <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13">
-                  <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a4.004 4.004 0 00-2.316 2.316l-.966-.259a1 1 0 00-.518 1.932l.966.259a4.004 4.004 0 002.316 2.316l-.259.966a1 1 0 101.932.518l.259-.966a4.004 4.004 0 002.316-2.316l.966.259a1 1 0 00.518-1.932l-.966-.259a4.004 4.004 0 00-2.316-2.316l.259-.966z" clip-rule="evenodd"/>
-                </svg>
-              </span>
-              <span id="flag-mode-label">Reveal Mode</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Live Game Stats Bar: Hazard Counter, Reset Face, Elapsed Timer -->
-        <div class="hud-stats-row">
-          
-          <!-- Hazard Counter -->
-          <div class="digital-counter" title="Remaining Soan Papdi hazards">
-            <div class="counter-icon hazard-icon" aria-hidden="true">
-              <img src="./assets/soan_papdi.jpg" alt="" class="counter-sweet-thumb">
-            </div>
-            <div class="digital-digits hazard-digits" id="mines" aria-live="polite">010</div>
-          </div>
-
-          <!-- Interactive Reset Button -->
-          <div class="spidey-reset-wrap">
-            <button class="spidey-face-btn" id="reset" title="Restart Game" aria-label="Restart game">
-              <!-- Rendered dynamically by game.js -->
-            </button>
-            <span class="face-subtitle">Restart</span>
-          </div>
-
-          <!-- Timer Display -->
-          <div class="digital-counter" title="Elapsed Time">
-            <div class="counter-icon time-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z"/>
-              </svg>
-            </div>
-            <div class="digital-digits time-digits" id="time" aria-live="polite">000</div>
-          </div>
-
-        </div>
-
-      </section>
-
-      <!-- Minesweeper Board Shell -->
-      <section class="board-shell" aria-label="Game board container">
-        <div class="board" id="board" role="grid" aria-label="Minesweeper board">
-          <!-- Cells populated dynamically by game.js -->
-        </div>
-      </section>
-
-      <!-- Live Status Line & Dimensions -->
-      <div class="statusline">
-        <span id="message">
-          <strong>Ready!</strong> Pick any tile to begin.
-        </span>
-        <span class="board-dimensions-tag" id="dimensions">9 x 9</span>
-      </div>
-
-      <!-- Grounded Humor Ticker -->
-      <div class="meme-ticker">
-        <span class="ticker-icon" aria-hidden="true">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+        <!-- Rules Modal Trigger -->
+        <button id="lore-btn" class="hud-tool-btn" type="button" title="Rules and How to Play" aria-label="Open game rules">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
           </svg>
-        </span>
-        <span id="quote-text">With great ghewar comes great responsibility.</span>
+        </button>
+
       </div>
 
-      <!-- Compact How-to-Play Card -->
-      <div class="howto-card">
-        <div class="howto-item">
-          <div class="howto-thumb-wrap">
-            <img src="./assets/ghewar.jpg" alt="Ghewar" class="howto-sweet-thumb">
-          </div>
-          <div><b>Count Ghewars:</b> Revealed tiles display 1 to 8 sweets exactly matching adjacent hazards</div>
+    </header>
+
+    <!-- Main Game Section: Framed Sweet-Shop Display Tray Board -->
+    <main class="game-stage">
+      
+      <!-- Status Ticker Microcopy -->
+      <div class="tray-statusline" role="status" aria-live="polite">
+        <div class="statusline-badge">
+          <span class="statusline-pulse"></span>
+          <span>SPIDEY SENSE:</span>
         </div>
-        <div class="howto-item">
-          <div class="howto-thumb-wrap flag-chip">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" class="flag-svg-icon" aria-hidden="true">
-              <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <div><b>Hazard Flag:</b> Right-click on desktop, long-press on mobile, or toggle Flag Mode</div>
+        <div class="statusline-msg" id="message">
+          <strong>Ready!</strong> Pick any tile to begin.
         </div>
-        <div class="howto-item">
-          <div class="howto-thumb-wrap">
-            <img src="./assets/soan_papdi.jpg" alt="Soan Papdi" class="howto-sweet-thumb">
-          </div>
-          <div><b>Avoid Soan Papdi:</b> Dangerous traps hidden on the board that detonate upon click</div>
+      </div>
+
+      <!-- Physical Sweet-Shop Tray Shell -->
+      <section class="board-shell" aria-label="Game board container">
+        
+        <!-- Tray Corner Brackets -->
+        <div class="tray-bracket top-left" aria-hidden="true"></div>
+        <div class="tray-bracket top-right" aria-hidden="true"></div>
+        <div class="tray-bracket bottom-left" aria-hidden="true"></div>
+        <div class="tray-bracket bottom-right" aria-hidden="true"></div>
+
+        <!-- Minesweeper Board Grid -->
+        <div class="board" id="board" role="grid" aria-label="Minesweeper board">
+          <!-- Populated dynamically by game.js -->
         </div>
+
+      </section>
+
+      <!-- Desi Humor Quote Bar -->
+      <div class="halwai-ticker" aria-hidden="true">
+        <span class="ticker-prefix">HALWAI LORE:</span>
+        <span id="quote-text">With great ghewar comes great responsibility.</span>
       </div>
 
     </main>
 
-    <!-- Clean Footer with Domain Verification & Legal Links -->
-    <footer class="app-footer">
+    <!-- Refined Footer with Legal & Domain Status -->
+    <footer class="game-footer">
       <div class="footer-left">
-        <span class="footer-domain-status">
-          <span class="domain-status-dot"></span>
-          Connected Custom Domain: <strong>huisweeper.com</strong>
-        </span>
+        <button id="domain-btn" class="footer-domain-badge" type="button" title="View domain DNS configuration">
+          <span class="domain-dot"></span>
+          <span>huisweeper.com</span>
+        </button>
       </div>
+
       <div class="footer-links">
         <a href="./privacy.html" class="footer-link">Privacy Policy</a>
-        <span class="footer-sep">|</span>
+        <span class="footer-sep" aria-hidden="true">·</span>
         <a href="./terms.html" class="footer-link">Terms and Conditions</a>
       </div>
     </footer>
@@ -239,17 +348,208 @@
   </div>
 
   <!-- =========================================================================
-       CUSTOM DOMAIN SETTINGS & VERIFICATION MODAL
+       VICTORY CELEBRATION MODAL OVERLAY
        ========================================================================= -->
-  <div id="domain-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="domain-modal-title">
-    <div class="modal-box">
-      <button id="close-domain-btn" class="modal-close-corner" aria-label="Close modal">
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+  <div id="victory-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="vict-title">
+    <div class="modal-box victory-theme">
+      
+      <div class="modal-sweet-hero-wrap">
+        <img src="./assets/ghewar.jpg" alt="Golden Honeycomb Ghewar" class="modal-sweet-hero">
+        <div class="modal-badge-chip victory-chip">100% PURE DESI GHEE</div>
+      </div>
+
+      <h2 id="vict-title" class="modal-headline">MITHAI MULTIVERSE SAVED!</h2>
+      <p class="modal-subtext">
+        Every Soan Papdi trap neutralized! Savor your victory with fresh, crispy Rajasthani Ghewar!
+      </p>
+
+      <div class="modal-stats-grid">
+        <div class="stat-cell">
+          <span class="stat-name">CLEAR TIME</span>
+          <span class="stat-value" id="vict-time">0s</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-name">DIFFICULTY</span>
+          <span class="stat-value" id="vict-level">Easy</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-name">HAZARDS DEFUSED</span>
+          <span class="stat-value" id="vict-sweets">10</span>
+        </div>
+      </div>
+
+      <div class="modal-btn-row">
+        <button id="vict-restart-btn" class="modal-primary-btn" type="button">
+          Play Next Round
+        </button>
+        <button id="vict-menu-btn" class="modal-secondary-btn" type="button">
+          Main Menu
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       DEFEAT (SOAN PAPDI TRAP) MODAL OVERLAY
+       ========================================================================= -->
+  <div id="defeat-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="defeat-title">
+    <div class="modal-box defeat-theme">
+      
+      <div class="modal-sweet-hero-wrap hazard-hero">
+        <img src="./assets/soan_papdi.jpg" alt="Soan Papdi Sweet Cube" class="modal-sweet-hero">
+        <div class="modal-badge-chip danger-chip">DIWALI 2017 VINTAGE</div>
+      </div>
+
+      <h2 id="defeat-title" class="modal-headline text-red">SOAN PAPDI TRAP DETONATED!</h2>
+      <p class="modal-subtext" id="defeat-roast-text">
+        You triggered a Soan Papdi hazard box. That dry festive sweet detonated across the grid.
+      </p>
+
+      <div class="modal-stats-grid">
+        <div class="stat-cell">
+          <span class="stat-name">TIME SURVIVED</span>
+          <span class="stat-value" id="defeat-time">0s</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-name">TILES CLEARED</span>
+          <span class="stat-value" id="defeat-cleared">0</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-name">LETHAL SWEET</span>
+          <span class="stat-value text-red">Dry Besan</span>
+        </div>
+      </div>
+
+      <div class="modal-btn-row">
+        <button id="defeat-restart-btn" class="modal-primary-btn defeat-btn" type="button">
+          Uncle Ben's Second Chance
+        </button>
+        <button id="defeat-menu-btn" class="modal-secondary-btn" type="button">
+          Main Menu
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       HOW TO PLAY & SWEET LORE MODAL
+       ========================================================================= -->
+  <div id="lore-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="lore-title">
+    <div class="modal-box rules-box">
+      
+      <button id="close-lore-btn" class="modal-close-corner" type="button" aria-label="Close rules dialog">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
           <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
         </svg>
       </button>
-      <h2 id="domain-modal-title" class="modal-title">CUSTOM DOMAIN CONFIGURATION</h2>
-      <p class="modal-desc">
+
+      <h2 id="lore-title" class="modal-headline">HOW TO PLAY HUISWEEPER</h2>
+      <p class="modal-subtext">
+        Pure classic Minesweeper logic reimagined with photorealistic Indian sweets.
+      </p>
+
+      <!-- Visual Example Layout Showcase -->
+      <div class="rules-visual-showcase">
+        <div class="showcase-card">
+          <div class="showcase-tile-mock">
+            <div class="mock-cell open ghewar-clue">
+              <img src="./assets/ghewar.png" alt="" class="mock-pip single">
+            </div>
+          </div>
+          <div class="showcase-desc">
+            <strong>1 Ghewar Pip</strong>
+            <span>Exactly 1 adjacent Soan Papdi hazard box touches this tile.</span>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="showcase-tile-mock">
+            <div class="mock-cell open ghewar-clue">
+              <img src="./assets/ghewar.png" alt="" class="mock-pip triple-1">
+              <img src="./assets/ghewar.png" alt="" class="mock-pip triple-2">
+              <img src="./assets/ghewar.png" alt="" class="mock-pip triple-3">
+            </div>
+          </div>
+          <div class="showcase-desc">
+            <strong>Dice Pip Layouts</strong>
+            <span>Counts 1 to 8 arrange ghewars in standard dice patterns. Count the sweets!</span>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="showcase-tile-mock">
+            <div class="mock-cell flag">
+              <svg class="spider-flag-icon" viewBox="0 0 100 100">
+                <line x1="44" y1="88" x2="44" y2="24" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="44" cy="20" r="4.5" fill="#e2e8f0" stroke="#dc2626" stroke-width="1.5"/>
+                <path d="M 44,22 L 84,38 L 44,54 Z" fill="#dc2626"/>
+              </svg>
+            </div>
+          </div>
+          <div class="showcase-desc">
+            <strong>Spider-Tracer Flag</strong>
+            <span>Right-click or long-press suspected Soan Papdi boxes to lock them safely.</span>
+          </div>
+        </div>
+
+        <div class="showcase-card">
+          <div class="showcase-tile-mock">
+            <div class="mock-cell open mine-hit">
+              <img src="./assets/soan_papdi.jpg" alt="" class="mock-soan">
+            </div>
+          </div>
+          <div class="showcase-desc">
+            <strong>Soan Papdi Hazard</strong>
+            <span>Avoid clicking directly! If clicked, dry flaky besan explodes across the board.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Mechanics Summary -->
+      <div class="rules-points-list">
+        <div class="rule-point">
+          <span class="point-number">1</span>
+          <div>
+            <strong>Click to Reveal:</strong> Click or tap any covered tile. The first click is always guaranteed 100% safe.
+          </div>
+        </div>
+        <div class="rule-point">
+          <span class="point-number">2</span>
+          <div>
+            <strong>Count the Ghewars:</strong> Instead of plain numerals, delicious Rajasthani Ghewars are arranged in dice patterns representing the exact count of neighboring hazards.
+          </div>
+        </div>
+        <div class="rule-point">
+          <span class="point-number">3</span>
+          <div>
+            <strong>Chording Shortcut:</strong> Once you have flagged all adjacent hazards for an open tile, clicking that open tile uncovers all remaining unflagged neighbors instantly.
+          </div>
+        </div>
+      </div>
+
+      <button id="close-lore-cta" class="modal-primary-btn" type="button">
+        Understood, Swing Back to Game
+      </button>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       CUSTOM DOMAIN SETTINGS & DNS MODAL
+       ========================================================================= -->
+  <div id="domain-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="domain-modal-title">
+    <div class="modal-box">
+      
+      <button id="close-domain-btn" class="modal-close-corner" type="button" aria-label="Close domain details">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+
+      <h2 id="domain-modal-title" class="modal-headline">CUSTOM DOMAIN CONFIGURATION</h2>
+      <p class="modal-subtext">
         Production domain connection parameters and live DNS status for Huisweeper.
       </p>
 
@@ -276,148 +576,10 @@
         </div>
       </div>
 
-      <button class="modal-cta-btn" onclick="document.getElementById('domain-modal').classList.remove('open')">
+      <button class="modal-primary-btn" type="button" onclick="document.getElementById('domain-modal').classList.remove('open')">
         Close Domain Details
       </button>
-    </div>
-  </div>
 
-  <!-- =========================================================================
-       VICTORY MODAL OVERLAY
-       ========================================================================= -->
-  <div id="victory-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="vict-title">
-    <div class="modal-box victory-theme">
-      <div class="modal-sweet-hero-wrap">
-        <img src="./assets/ghewar.jpg" alt="Golden Ghewar" class="modal-sweet-hero">
-      </div>
-      <h2 id="vict-title" class="modal-title">SWEEP VICTORY!</h2>
-      <p class="modal-desc">
-        All Soan Papdi traps neutralized! Feast on your triumph of crispy Rajasthani Ghewar!
-      </p>
-
-      <div class="modal-stats-grid">
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Time</span>
-          <span class="modal-stat-val" id="vict-time">0s</span>
-        </div>
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Difficulty</span>
-          <span class="modal-stat-val" id="vict-level">Beginner</span>
-        </div>
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Hazards Defused</span>
-          <span class="modal-stat-val" id="vict-sweets">10</span>
-        </div>
-      </div>
-
-      <button id="vict-restart-btn" class="modal-cta-btn">
-        Play Next Round
-      </button>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       DEFEAT MODAL OVERLAY
-       ========================================================================= -->
-  <div id="defeat-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="defeat-title">
-    <div class="modal-box defeat-theme">
-      <div class="modal-sweet-hero-wrap hazard-hero">
-        <img src="./assets/soan_papdi.jpg" alt="Soan Papdi Sweet" class="modal-sweet-hero">
-      </div>
-      <h2 id="defeat-title" class="modal-title">SOAN PAPDI TRAP!</h2>
-      <p class="modal-desc" id="defeat-roast-text">
-        You triggered a Soan Papdi hazard box. That dry festive sweet detonated across the grid.
-      </p>
-
-      <div class="modal-stats-grid">
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Elapsed Time</span>
-          <span class="modal-stat-val" id="defeat-time">0s</span>
-        </div>
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Tiles Cleared</span>
-          <span class="modal-stat-val" id="defeat-cleared">0</span>
-        </div>
-        <div class="modal-stat-card">
-          <span class="modal-stat-label">Hazard</span>
-          <span class="modal-stat-val" style="font-size: 14px; color: #f87171; padding-top: 4px;">Soan Papdi</span>
-        </div>
-      </div>
-
-      <button id="defeat-restart-btn" class="modal-cta-btn defeat-btn">
-        Retry Round
-      </button>
-    </div>
-  </div>
-
-  <!-- =========================================================================
-       SWEET LORE & RULES MODAL
-       ========================================================================= -->
-  <div id="lore-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="lore-title">
-    <div class="modal-box">
-      <button id="close-lore-btn" class="modal-close-corner" aria-label="Close modal">
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
-          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-        </svg>
-      </button>
-      <h2 id="lore-title" class="modal-title">GAME RULES AND MECHANICS</h2>
-      <p class="modal-desc">
-        Huisweeper operates with classic Minesweeper logic using traditional sweets:
-      </p>
-
-      <div class="lore-grid">
-        <div class="lore-item">
-          <div class="lore-item-header">
-            <img src="./assets/ghewar.jpg" alt="Golden Ghewar" class="lore-item-thumb">
-            <span>Golden Ghewar (Safe Count)</span>
-          </div>
-          <div class="lore-item-desc">
-            Safe tiles. Count the number of Ghewars visible on the revealed tile (arranged in dice patterns from 1 to 8) to know exactly how many adjacent Soan Papdi boxes are touching that cell.
-          </div>
-        </div>
-
-        <div class="lore-item">
-          <div class="lore-item-header">
-            <img src="./assets/soan_papdi.jpg" alt="Soan Papdi" class="lore-item-thumb">
-            <span>Dangerous Soan Papdi</span>
-          </div>
-          <div class="lore-item-desc">
-            The hazard mine. Detonates if clicked. Flaky, dry, and regifted year after year. Flag all suspected boxes to clear the board.
-          </div>
-        </div>
-
-        <div class="lore-item">
-          <div class="lore-item-header">
-            <div class="lore-chip-flag">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
-                <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <span>Hazard Flags</span>
-          </div>
-          <div class="lore-item-desc">
-            Mark suspected Soan Papdi locations. Right-click on desktop, long-press on touch screens, or toggle the Flag Mode button.
-          </div>
-        </div>
-
-        <div class="lore-item">
-          <div class="lore-item-header">
-            <div class="lore-chip-flag">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
-                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
-              </svg>
-            </div>
-            <span>Tile Chording</span>
-          </div>
-          <div class="lore-item-desc">
-            Once you flag all adjacent hazards for an open numbered tile, clicking the tile again will instantly uncover all remaining unflagged adjacent safe tiles.
-          </div>
-        </div>
-      </div>
-
-      <button class="modal-cta-btn" onclick="document.getElementById('lore-modal').classList.remove('open')">
-        Understood, Return to Game
-      </button>
     </div>
   </div>
 

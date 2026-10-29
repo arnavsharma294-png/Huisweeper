@@ -1,6 +1,7 @@
 /**
  * HUISWEEPER - Core Game Logic & Audio & Animations
  * Spider-Man Web Theme + Desi Sweet Shop Meme Edition
+ * (Preserves core engine: adjacency, safe start, reveal, flood-fill, flagging, timer)
  */
 
 (()=>{
@@ -10,15 +11,15 @@
   // 1. Game Configurations & State
   // -------------------------------------------------------------------------
   const levels = {
-    beginner: { rows: 9, cols: 9, mines: 10, label: 'Beginner' },
+    beginner: { rows: 9, cols: 9, mines: 10, label: 'Easy' },
     intermediate: { rows: 12, cols: 12, mines: 22, label: 'Medium' },
-    expert: { rows: 14, cols: 18, mines: 45, label: 'Expert' }
+    expert: { rows: 14, cols: 18, mines: 45, label: 'Hard' }
   };
 
   const quotes = [
     "With great ghewar comes great responsibility.",
     "Friendly Neighborhood Halwai: 100% pure desi ghee web-fluid.",
-    "Peter Parkour's Rule: That same Soan Papdi box was regifted 14 times since Diwali 2017.",
+    "Peter Parkour's Rule: That Soan Papdi was regifted 14 times since Diwali 2017.",
     "Uncle Ben's Second Chance: Every sweet tooth deserves redemption.",
     "Spidey-Sense tingling... smells like green cardamom, silver vark, and impending doom!",
     "Green Goblin's secret weapon: Dry, flaky, unswallowable Diwali sweets.",
@@ -47,9 +48,22 @@
   let flagsCount = 0;
   let safeLeft = 0;
   let isFlagMode = false;
-  let isMuted = localStorage.getItem('huisweeper_muted') === 'true';
 
-  // DOM Elements
+  // Audio is OFF by default per prompt specification
+  let isMuted = localStorage.getItem('huisweeper_muted') === null 
+    ? true 
+    : (localStorage.getItem('huisweeper_muted') === 'true');
+
+  // DOM Elements - Start Screen
+  const startScreenEl = document.getElementById('start-screen');
+  const startGameBtn = document.getElementById('start-game-btn');
+  const startHowToBtn = document.getElementById('start-howto-btn');
+  const startSoundToggleBtn = document.getElementById('start-sound-toggle');
+  const startSoundIcon = document.getElementById('start-sound-icon');
+  const startSoundLabel = document.getElementById('start-sound-label');
+  const startDiffBtns = document.querySelectorAll('.start-diff-btn');
+
+  // DOM Elements - Game Screen
   const boardEl = document.getElementById('board');
   const mineCounterEl = document.getElementById('mines');
   const timerCounterEl = document.getElementById('time');
@@ -60,14 +74,19 @@
   const quoteTextEl = document.getElementById('quote-text');
   const soundToggleBtn = document.getElementById('sound-toggle');
   const flagModeBtn = document.getElementById('flag-mode-toggle');
+  const menuBtn = document.getElementById('menu-btn');
 
-  // Modals
+  // DOM Elements - Modals
   const victoryModal = document.getElementById('victory-modal');
   const defeatModal = document.getElementById('defeat-modal');
   const loreModal = document.getElementById('lore-modal');
   const domainModal = document.getElementById('domain-modal');
   const domainBtn = document.getElementById('domain-btn');
   const closeDomainBtn = document.getElementById('close-domain-btn');
+  const closeLoreBtn = document.getElementById('close-lore-btn');
+  const closeLoreCta = document.getElementById('close-lore-cta');
+  const victMenuBtn = document.getElementById('vict-menu-btn');
+  const defeatMenuBtn = document.getElementById('defeat-menu-btn');
 
   const fmt = n => String(Math.max(0, n)).padStart(3, '0');
 
@@ -95,7 +114,6 @@
         const ctx = getAudioContext();
         if (!ctx) return;
         const now = ctx.currentTime;
-        // High crisp "thwip" pop
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'triangle';
@@ -116,7 +134,7 @@
         const ctx = getAudioContext();
         if (!ctx) return;
         const now = ctx.currentTime;
-        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        const notes = [523.25, 659.25, 783.99, 1046.50];
         notes.forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
@@ -138,7 +156,6 @@
         const ctx = getAudioContext();
         if (!ctx) return;
         const now = ctx.currentTime;
-        // Web shooter zip sound
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sawtooth';
@@ -162,7 +179,6 @@
         if (!ctx) return;
         const now = ctx.currentTime;
 
-        // Sub bass thump
         const boom = ctx.createOscillator();
         const boomGain = ctx.createGain();
         boom.type = 'sine';
@@ -175,7 +191,6 @@
         boom.start(now);
         boom.stop(now + 0.5);
 
-        // Noise crumble burst
         const bufferSize = ctx.sampleRate * 0.4;
         const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
         const data = buffer.getChannelData(0);
@@ -206,10 +221,10 @@
         if (!ctx) return;
         const now = ctx.currentTime;
         const chords = [
-          [261.63, 329.63, 392.00], // C4
-          [293.66, 349.23, 440.00], // Dm
-          [329.63, 392.00, 493.88], // Em
-          [523.25, 659.25, 783.99, 1046.50] // C5 triumph
+          [261.63, 329.63, 392.00],
+          [293.66, 349.23, 440.00],
+          [329.63, 392.00, 493.88],
+          [523.25, 659.25, 783.99, 1046.50]
         ];
         chords.forEach((chord, step) => {
           const stepTime = now + step * 0.16;
@@ -231,94 +246,71 @@
     }
   };
 
-  // -------------------------------------------------------------------------
+  // Sync sound button UI across Start Screen and HUD
+  function syncAudioControls() {
+    // Start Screen Sound Toggle
+    if (startSoundToggleBtn) {
+      startSoundToggleBtn.classList.toggle('sound-on', !isMuted);
+      if (startSoundLabel) {
+        startSoundLabel.textContent = isMuted ? 'Audio: OFF' : 'Audio: ON';
+      }
+      if (startSoundIcon) {
+        startSoundIcon.innerHTML = isMuted
+          ? `<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>`
+          : `<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/>
+            </svg>`;
+      }
+    }
+
+    // In-game HUD Sound Toggle
+    if (soundToggleBtn) {
+      soundToggleBtn.classList.toggle('active', !isMuted);
+      const hudLabel = document.getElementById('sound-label');
+      const hudIconWrap = document.getElementById('sound-icon-wrap');
+      if (hudLabel) hudLabel.textContent = isMuted ? 'Muted' : 'Sound';
+      if (hudIconWrap) {
+        hudIconWrap.innerHTML = isMuted
+          ? `<svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            </svg>`
+          : `<svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
+              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/>
+            </svg>`;
+      }
+    }
+  }
+
+  function toggleAudio() {
+    isMuted = !isMuted;
+    localStorage.setItem('huisweeper_muted', isMuted);
+    syncAudioControls();
+    if (!isMuted) {
+      getAudioContext();
+      sound.reveal(1.2);
+    }
+  }
+
   // -------------------------------------------------------------------------
   // 3. Count-to-Layout Mapping for Ghewar Pips (Dice Patterns)
-  // Maximized sweet sizes: Count 1 fills 95% of the square tile cell,
-  // and multi-sweet counts fit the square grid to the absolute maximum.
   // -------------------------------------------------------------------------
   const GHEWAR_LAYOUTS = {
-    // 1: Maximum size single Ghewar filling 95% of the square grid perfectly
-    1: {
-      size: 95,
-      pips: [
-        [50, 50]
-      ]
-    },
-    // 2: Two large sweets (50% each) spanning edge-to-edge along diagonal
-    2: {
-      size: 50,
-      pips: [
-        [27, 27],
-        [73, 73]
-      ]
-    },
-    // 3: Three large sweets (36% each) spanning the entire diagonal
-    3: {
-      size: 36,
-      pips: [
-        [20, 20],
-        [50, 50],
-        [80, 80]
-      ]
-    },
-    // 4: Four large sweets (46% each) filling the 2x2 square grid edge-to-edge
-    4: {
-      size: 46,
-      pips: [
-        [26, 26], [74, 26],
-        [26, 74], [74, 74]
-      ]
-    },
-    // 5: Five large sweets (36% each) filling the square grid with center sweet
-    5: {
-      size: 36,
-      pips: [
-        [23, 23], [77, 23],
-        [50, 50],
-        [23, 77], [77, 77]
-      ]
-    },
-    // 6: Six large sweets (31% each) in 2 columns filling the grid height
-    6: {
-      size: 31,
-      pips: [
-        [31, 18], [69, 18],
-        [31, 50], [69, 50],
-        [31, 82], [69, 82]
-      ]
-    },
-    // 7: Seven sweets (29% each) spanning edge-to-edge
-    7: {
-      size: 29,
-      pips: [
-        [20, 20], [80, 20],
-        [20, 50], [50, 50], [80, 50],
-        [20, 80], [80, 80]
-      ]
-    },
-    // 8: Eight sweets (29% each) in a full 3x3 perimeter frame
-    8: {
-      size: 29,
-      pips: [
-        [18, 18], [50, 18], [82, 18],
-        [18, 50],          [82, 50],
-        [18, 82], [50, 82], [82, 82]
-      ]
-    }
+    1: { size: 95, pips: [[50, 50]] },
+    2: { size: 50, pips: [[27, 27], [73, 73]] },
+    3: { size: 36, pips: [[20, 20], [50, 50], [80, 80]] },
+    4: { size: 46, pips: [[26, 26], [74, 26], [26, 74], [74, 74]] },
+    5: { size: 36, pips: [[23, 23], [77, 23], [50, 50], [23, 77], [77, 77]] },
+    6: { size: 31, pips: [[31, 18], [69, 18], [31, 50], [69, 50], [31, 82], [69, 82]] },
+    7: { size: 29, pips: [[20, 20], [80, 20], [20, 50], [50, 50], [80, 50], [20, 80], [80, 80]] },
+    8: { size: 29, pips: [[18, 18], [50, 18], [82, 18], [18, 50], [82, 50], [18, 82], [50, 82], [82, 82]] }
   };
 
-  /**
-   * Deterministic slight rotation for natural appearance (-8° to +8°)
-   */
   function getDeterministicRotation(cellIndex, pipIndex) {
     return (((cellIndex * 13 + pipIndex * 29) % 17) - 8);
   }
 
-  /**
-   * Generates multiple photorealistic Ghewar images arranged in fixed dice-pip patterns.
-   * Removes all numerals so the player counts the sweets to read the adjacent hazard count.
-   */
   function createGhewarElement(count, cellIndex = 0) {
     const layout = GHEWAR_LAYOUTS[count];
     if (!layout || !layout.pips || layout.pips.length === 0) return '';
@@ -326,17 +318,13 @@
     const { size, pips } = layout;
     const pipsHtml = pips.map(([x, y], idx) => {
       const rot = getDeterministicRotation(cellIndex, idx);
-      const delay = idx * 14; // Quick stagger under 110ms total
+      const delay = idx * 14;
       return `<img class="ghewar-pip" src="./assets/ghewar.png" alt="" loading="eager" draggable="false" style="left: ${x}%; top: ${y}%; width: ${size}%; height: ${size}%; --pip-rot: ${rot}deg; animation-delay: ${delay}ms;">`;
     }).join('');
 
     return `<div class="ghewar-pips-container" role="presentation">${pipsHtml}</div>`;
   }
 
-  /**
-   * Generates a photorealistic flaky strata Soan Papdi cube hazard with
-   * delicate fibrous layers, pistachio garnish, and clean hazard feedback.
-   */
   function createSoanPapdiElement(isDetonated = false) {
     return `
       <div class="soan-container ${isDetonated ? 'detonated' : ''}">
@@ -346,27 +334,18 @@
     `;
   }
 
-  /**
-   * Generates a clean, modern Spider-Tracer Flag marker with subtle drop shadow.
-   */
   function createSpiderFlagSVG() {
     return `
       <svg class="spider-flag-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <!-- Sleek Tether Pole -->
-        <line x1="44" y1="88" x2="44" y2="24" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="44" cy="20" r="4.5" fill="#e2e8f0" stroke="#dc2626" stroke-width="1.5"/>
-        <!-- Crimson Spider Flag Banner -->
-        <path d="M 44,22 L 84,38 L 44,54 Z" fill="#dc2626"/>
-        <!-- Spider Silhouette Accent -->
+        <line x1="44" y1="88" x2="44" y2="24" stroke="#94a3b8" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="44" cy="20" r="4.5" fill="#e2e8f0" stroke="#e11d48" stroke-width="1.8"/>
+        <path d="M 44,22 L 86,38 L 44,54 Z" fill="#e11d48"/>
         <ellipse cx="58" cy="38" rx="3.5" ry="4.5" fill="#ffffff"/>
         <circle cx="63" cy="38" r="2.2" fill="#ffffff"/>
       </svg>
     `;
   }
 
-  /**
-   * Generates sleek Spider-Man Mask SVG for reset button with state: 'normal', 'scared', 'won', 'lost'.
-   */
   function updateSpideyFace(state = 'normal') {
     let eyePathLeft = 'M 24,42 Q 36,36 44,48 Q 36,58 24,42 Z';
     let eyePathRight = 'M 76,42 Q 64,36 56,48 Q 64,58 76,42 Z';
@@ -390,29 +369,22 @@
     resetFaceBtn.innerHTML = `
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="faceGrad" cx="44%" cy="38%" r="58%">
-            <stop offset="0%" stop-color="#ef4444"/>
-            <stop offset="70%" stop-color="#dc2626"/>
+          <linearGradient id="faceGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626"/>
             <stop offset="100%" stop-color="#991b1b"/>
-          </radialGradient>
+          </linearGradient>
         </defs>
-        <!-- Spidey Mask -->
         <circle cx="50" cy="50" r="44" fill="url(#faceGrad)"/>
-        
-        <!-- Elegant thin web lines on mask -->
-        <path d="M 50,6 L 50,94 M 6,50 L 94,50" stroke="#0b1324" stroke-width="1.2" opacity="0.75"/>
-        <path d="M 19,19 L 81,81 M 19,81 L 81,19" stroke="#0b1324" stroke-width="1.2" opacity="0.75"/>
-        <path d="M 32,36 Q 50,31 68,36 Q 74,50 68,64 Q 50,69 32,64 Q 26,50 32,36 Z" fill="none" stroke="#0b1324" stroke-width="1.1" opacity="0.75"/>
+        <path d="M 50,6 L 50,94 M 6,50 L 94,50" stroke="#050811" stroke-width="1.3" opacity="0.8"/>
+        <path d="M 19,19 L 81,81 M 19,81 L 81,19" stroke="#050811" stroke-width="1.3" opacity="0.8"/>
+        <path d="M 32,36 Q 50,31 68,36 Q 74,50 68,64 Q 50,69 32,64 Q 26,50 32,36 Z" fill="none" stroke="#050811" stroke-width="1.2" opacity="0.8"/>
 
-        <!-- Eyes -->
         ${isXEyes ? `
           <path d="${eyePathLeft}" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
           <path d="${eyePathRight}" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round"/>
         ` : `
-          <!-- Black Rim -->
-          <path d="${eyePathLeft}" fill="#0b1324" stroke="#0b1324" stroke-width="3"/>
-          <path d="${eyePathRight}" fill="#0b1324" stroke="#0b1324" stroke-width="3"/>
-          <!-- Inner Lens -->
+          <path d="${eyePathLeft}" fill="#050811" stroke="#050811" stroke-width="3"/>
+          <path d="${eyePathRight}" fill="#050811" stroke="#050811" stroke-width="3"/>
           <path d="${eyePathLeft}" fill="${eyeFill}"/>
           <path d="${eyePathRight}" fill="${eyeFill}"/>
         `}
@@ -464,7 +436,6 @@
       el: null
     }));
 
-    // Dynamic grid columns
     boardEl.style.gridTemplateColumns = `repeat(${cols}, var(--cell-size))`;
     boardEl.replaceChildren();
 
@@ -484,15 +455,15 @@
         }
       });
 
-      // Right-Click Handler for Desktop Flagging
+      // Right-Click for desktop flagging
       el.addEventListener('contextmenu', (e) => {
         e.preventDefault();
         toggleFlag(c.i);
       });
 
-      // Mobile Long-Press to Flag
+      // Touch Long-Press for mobile flagging
       let pressTimer = null;
-      el.addEventListener('touchstart', (e) => {
+      el.addEventListener('touchstart', () => {
         pressTimer = setTimeout(() => {
           toggleFlag(c.i);
           if (navigator.vibrate) navigator.vibrate(40);
@@ -507,7 +478,7 @@
         clearTimeout(pressTimer);
       });
 
-      // Spidey Face reacts to mouse down
+      // Face reacts on mousedown
       el.addEventListener('mousedown', () => {
         if (!ended && !c.open) updateSpideyFace('scared');
       });
@@ -516,16 +487,14 @@
       c.el = el;
     }
 
-    // Reset board & shell
     boardShell.className = 'board-shell';
     mineCounterEl.textContent = fmt(mines);
     timerCounterEl.textContent = fmt(0);
     updateSpideyFace('normal');
-    statusMessageEl.innerHTML = `<strong>Spidey-Sense Ready!</strong> Click any tile to swing into action.`;
+    statusMessageEl.innerHTML = `<strong>Spidey-Sense Ready!</strong> Pick any tile to begin.`;
     dimensionsEl.textContent = `${rows} × ${cols}`;
   }
 
-  // Safe first click placement
   function start(firstIndex) {
     const total = levels[currentLevel].mines;
     const forbidden = new Set([firstIndex, ...neighbors(firstIndex)]);
@@ -559,7 +528,6 @@
     const c = cells[i];
     if (ended || c.flag) return;
 
-    // Chording feature: clicking an already open numbered cell
     if (c.open) {
       if (c.near > 0) chord(c.i);
       return;
@@ -567,18 +535,17 @@
 
     if (!started) start(i);
 
-    // Hit a Soan Papdi hazard!
+    // Hit a Soan Papdi hazard
     if (c.mine) {
       c.open = true;
       c.el.classList.add('open', 'mine-hit', 'sweet-mine');
       c.el.innerHTML = createSoanPapdiElement(true);
-      c.el.setAttribute('aria-label', 'Soan papdi hazard');
+      c.el.setAttribute('aria-label', 'Soan papdi hazard exploded');
       sound.explosion();
       finish(false, c.i);
       return;
     }
 
-    // Safe reveal
     openSafe(c, true);
 
     if (safeLeft === 0) {
@@ -600,20 +567,17 @@
       c.el.setAttribute('aria-label', `${c.near} adjacent soan papdi`);
       if (isRoot) sound.reveal(1 + (c.near * 0.08));
     } else {
-      // 0 hazards nearby: smooth blank safe cell
       c.el.classList.add('blank-safe');
       c.el.innerHTML = '';
       c.el.setAttribute('aria-label', '0 adjacent soan papdi');
       if (isRoot) sound.cascade();
 
-      // Flood fill neighbors
       for (const n of neighbors(c.i)) {
         openSafe(cells[n], false);
       }
     }
   }
 
-  // Chording: If adjacent flags equal clue count, reveal remaining neighbors
   function chord(i) {
     const c = cells[i];
     if (!c.open || c.near === 0) return;
@@ -680,7 +644,6 @@
       sound.victory();
       statusMessageEl.innerHTML = `<strong>VICTORY!</strong> With great ghewar comes great responsibility!`;
 
-      // Automatically flag all remaining mines
       for (const c of cells) {
         if (c.mine && !c.flag) {
           c.flag = true;
@@ -690,12 +653,10 @@
       }
       mineCounterEl.textContent = fmt(0);
 
-      // Open victory celebration modal after slight delay
       setTimeout(() => {
         showVictoryModal();
-      }, 600);
+      }, 550);
     } else {
-      // Reveal all other soan papdi sweets on loss
       for (const c of cells) {
         if (c.mine && !c.open) {
           c.open = true;
@@ -708,10 +669,9 @@
       const roast = defeatRoasts[Math.floor(Math.random() * defeatRoasts.length)];
       statusMessageEl.innerHTML = `<strong>SOAN PAPDI TRAP!</strong> Your sweet tooth betrayed you.`;
 
-      // Open defeat modal after slight delay
       setTimeout(() => {
         showDefeatModal(roast);
-      }, 750);
+      }, 700);
     }
   }
 
@@ -723,6 +683,7 @@
     document.getElementById('vict-level').textContent = levels[currentLevel].label;
     document.getElementById('vict-sweets').textContent = `${levels[currentLevel].mines}`;
     victoryModal.classList.add('open');
+    document.getElementById('vict-restart-btn')?.focus();
   }
 
   function showDefeatModal(roastMessage) {
@@ -730,6 +691,7 @@
     document.getElementById('defeat-time').textContent = `${seconds}s`;
     document.getElementById('defeat-cleared').textContent = `${levels[currentLevel].rows * levels[currentLevel].cols - levels[currentLevel].mines - safeLeft}`;
     defeatModal.classList.add('open');
+    document.getElementById('defeat-restart-btn')?.focus();
   }
 
   function closeAllModals() {
@@ -740,72 +702,7 @@
   }
 
   // -------------------------------------------------------------------------
-  // 6. Background Particles & Skyline Ambience
-  // -------------------------------------------------------------------------
-  function initParticles() {
-    const canvas = document.getElementById('web-particles');
-    if (!canvas || !canvas.getContext) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const particles = Array.from({ length: 30 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.45,
-      vy: (Math.random() - 0.5) * 0.45,
-      radius: Math.random() * 2 + 1,
-      isRed: Math.random() > 0.65
-    }));
-
-    function loop() {
-      ctx.clearRect(0, 0, width, height);
-
-      // Draw faint spiderweb connecting threads
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 110) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 210, 255, ${(1 - dist / 110) * 0.14})`;
-            ctx.lineWidth = 0.8;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw particles (blue and red motes)
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.isRed ? 'rgba(230, 36, 41, 0.45)' : 'rgba(0, 210, 255, 0.45)';
-        ctx.fill();
-      }
-
-      requestAnimationFrame(loop);
-    }
-    loop();
-  }
-
-  // -------------------------------------------------------------------------
-  // 7. Humor Ticker Quotes
+  // 6. Humor Ticker Quotes
   // -------------------------------------------------------------------------
   let quoteIndex = 0;
   function cycleQuotes() {
@@ -821,74 +718,117 @@
   }
 
   // -------------------------------------------------------------------------
+  // 7. Start Screen Entrance & Skip Logic
+  // -------------------------------------------------------------------------
+  function skipEntrance() {
+    if (startScreenEl) {
+      startScreenEl.classList.add('anim-skip');
+    }
+  }
+
+  startScreenEl?.addEventListener('click', (e) => {
+    if (!e.target.closest('button')) {
+      skipEntrance();
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    // If Escape key pressed, close any open modal
+    if (e.key === 'Escape') {
+      closeAllModals();
+      return;
+    }
+    // Any other key skips start screen animation if currently on start screen
+    if (startScreenEl && !startScreenEl.classList.contains('hidden')) {
+      skipEntrance();
+    }
+  });
+
+  // Automatically mark entrance done after duration
+  setTimeout(skipEntrance, 900);
+
+  // -------------------------------------------------------------------------
   // 8. Event Listeners & Controls
   // -------------------------------------------------------------------------
+  // Start Screen: Difficulty Selector
+  startDiffBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      startDiffBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+      currentLevel = btn.dataset.level;
+    });
+  });
+
+  // Start Screen: Primary "Start Game" Button
+  startGameBtn?.addEventListener('click', () => {
+    startScreenEl?.classList.add('hidden');
+    newGame();
+    if (!isMuted) {
+      getAudioContext();
+      sound.reveal(1);
+    }
+  });
+
+  // Start Screen: Secondary "How to Play" Button
+  startHowToBtn?.addEventListener('click', () => {
+    loreModal?.classList.add('open');
+    closeLoreBtn?.focus();
+  });
+
+  // Start Screen: Sound Toggle Button
+  startSoundToggleBtn?.addEventListener('click', () => {
+    toggleAudio();
+  });
+
+  // HUD: Menu Button (Returns to Start Screen)
+  menuBtn?.addEventListener('click', () => {
+    // Sync current level back to start screen buttons
+    startDiffBtns.forEach(b => {
+      const isMatch = b.dataset.level === currentLevel;
+      b.classList.toggle('active', isMatch);
+      b.setAttribute('aria-checked', isMatch ? 'true' : 'false');
+    });
+    startScreenEl?.classList.remove('hidden');
+  });
+
   // Reset Button ("Uncle Ben's Second Chance")
-  resetFaceBtn.addEventListener('click', () => {
+  resetFaceBtn?.addEventListener('click', () => {
     sound.reveal(0.9);
     newGame();
   });
 
-  resetFaceBtn.addEventListener('mouseup', () => {
+  resetFaceBtn?.addEventListener('mouseup', () => {
     if (!ended) updateSpideyFace('normal');
   });
 
-  // Global mouseup to reset Spidey face when letting go of click
   window.addEventListener('mouseup', () => {
     if (!ended && resetFaceBtn) {
       updateSpideyFace('normal');
     }
   });
 
-  // Difficulty Selector
-  document.querySelectorAll('.diff-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentLevel = btn.dataset.level;
-      newGame();
-    });
+  // HUD: Sound Toggle Button
+  soundToggleBtn?.addEventListener('click', () => {
+    toggleAudio();
   });
 
-  // Sound Toggle
-  if (soundToggleBtn) {
-    function updateSoundBtn() {
-      const label = document.getElementById('sound-label');
-      const iconWrap = document.getElementById('sound-icon-wrap');
-      if (label) label.textContent = isMuted ? 'Muted' : 'Sound ON';
-      if (iconWrap) {
-        iconWrap.innerHTML = isMuted
-          ? `<svg class="btn-svg-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-            </svg>`
-          : `<svg class="btn-svg-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-              <path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"/>
-            </svg>`;
-      }
-      soundToggleBtn.classList.toggle('active', !isMuted);
-    }
-    updateSoundBtn();
-    soundToggleBtn.addEventListener('click', () => {
-      isMuted = !isMuted;
-      localStorage.setItem('huisweeper_muted', isMuted);
-      updateSoundBtn();
-      if (!isMuted) sound.reveal(1.2);
-    });
-  }
-
-  // Flag Mode Toggle (Touch / Mobile Friendly)
+  // Flag Mode Toggle for Mobile
   if (flagModeBtn) {
     function updateFlagModeBtn() {
       flagModeBtn.classList.toggle('flag-active', isFlagMode);
       const iconSpan = document.getElementById('flag-mode-icon');
       const labelSpan = document.getElementById('flag-mode-label');
-      if (labelSpan) labelSpan.textContent = isFlagMode ? 'Flag Mode' : 'Reveal Mode';
+      if (labelSpan) labelSpan.textContent = isFlagMode ? 'Flag' : 'Reveal';
       if (iconSpan) {
         iconSpan.innerHTML = isFlagMode
-          ? `<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13">
+          ? `<svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
               <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
             </svg>`
-          : `<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13">
+          : `<svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15">
               <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a4.004 4.004 0 00-2.316 2.316l-.966-.259a1 1 0 00-.518 1.932l.966.259a4.004 4.004 0 002.316 2.316l-.259.966a1 1 0 101.932.518l.259-.966a4.004 4.004 0 002.316-2.316l.966.259a1 1 0 00.518-1.932l-.966-.259a4.004 4.004 0 00-2.316-2.316l.259-.966z" clip-rule="evenodd"/>
             </svg>`;
       }
@@ -900,11 +840,28 @@
     });
   }
 
-  // Modal Buttons
+  // Modals & Navigation
   document.getElementById('vict-restart-btn')?.addEventListener('click', newGame);
   document.getElementById('defeat-restart-btn')?.addEventListener('click', newGame);
-  document.getElementById('lore-btn')?.addEventListener('click', () => loreModal?.classList.add('open'));
-  document.getElementById('close-lore-btn')?.addEventListener('click', () => loreModal?.classList.remove('open'));
+
+  victMenuBtn?.addEventListener('click', () => {
+    closeAllModals();
+    startScreenEl?.classList.remove('hidden');
+  });
+
+  defeatMenuBtn?.addEventListener('click', () => {
+    closeAllModals();
+    startScreenEl?.classList.remove('hidden');
+  });
+
+  document.getElementById('lore-btn')?.addEventListener('click', () => {
+    loreModal?.classList.add('open');
+    closeLoreBtn?.focus();
+  });
+
+  closeLoreBtn?.addEventListener('click', () => loreModal?.classList.remove('open'));
+  closeLoreCta?.addEventListener('click', () => loreModal?.classList.remove('open'));
+
   domainBtn?.addEventListener('click', () => domainModal?.classList.add('open'));
   closeDomainBtn?.addEventListener('click', () => domainModal?.classList.remove('open'));
 
@@ -915,7 +872,7 @@
     });
   });
 
-  // Responsive Board Adjustments
+  // Window resize grid columns recalculation
   window.addEventListener('resize', () => {
     if (cells.length > 0) {
       boardEl.style.gridTemplateColumns = `repeat(${levels[currentLevel].cols}, var(--cell-size))`;
@@ -925,8 +882,8 @@
   // -------------------------------------------------------------------------
   // 9. Startup Initialization
   // -------------------------------------------------------------------------
-  initParticles();
+  syncAudioControls();
   cycleQuotes();
-  newGame();
+  newGame(); // Builds board underneath while start screen is active
 
 })();
